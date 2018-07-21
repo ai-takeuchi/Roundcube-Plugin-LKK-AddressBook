@@ -3,6 +3,9 @@
  *
  */
 
+var lkk_groups = {};
+var lkk_addrs = [];
+
 (function () {
 	var Address = {
 		to: "",
@@ -77,9 +80,26 @@
 		for (var id in lkk_groups) {
 			// console.log(lkk_groups[id]);
 			var group = lkk_groups[id];
+			if (is_exists_contact_id(group) == false) {
+				continue;
+			}
 			options += `<option value="${id}">${group["name"]}</option>`;
 		}
 		return `<select id="lkk_groups">${options}</select>`;
+	}
+
+
+	function is_exists_contact_id(group) {
+		var found = false;
+		group["contact_id"].forEach(contact_id => {
+			for (var i in lkk_addrs) {
+				// console.log(`${group["name"]} ${lkk_addrs[i]["contact_id"]} == ${contact_id}`);
+				if (lkk_addrs[i]["contact_id"] == contact_id) {
+					found = true;
+				}
+			}
+		});
+		return found;
 	}
 
 	function get_contact(contact_id, email_index) {
@@ -93,6 +113,7 @@
 	}
 
 	function lkk_init() {
+		// console.log("lkk_init");
 
 		Address["to"] = $('textarea[name="_to"]').val();
 		Address["to_array"] = Address["to"].split(/\s*,\s*/);

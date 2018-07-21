@@ -8,30 +8,26 @@ class lkk_addressbook extends rcube_plugin {
 	private $groups = array();
 
 	function init() {
-        //echo 'test init';
+        // echo 'test init';
 		$rcmail = rcmail::get_instance();
 		if ($rcmail->action == 'compose') {
+            $this->api->add_content($this->output_footer(), "toolbar");
 			$this->include_script('lkk_abk.js');
 			$this->include_stylesheet("skins/default/templates/lkk.css");
 		}
 
-		// output footer
-		$rcmail->output->add_footer($this->output_footer());
-
 		$this->add_texts('localization/', true);
-		$this->register_action('plugin.lkk_abk_show',array($this,'show'));
 
-		// $this->register_handler('plugin.target',array($this,'get_t'));
-		// $this->register_handler('plugin.act_title',array($this,'set_t'));
-		// $this->register_handler('plugin.table',array($this,'tab'));
-
-		// $this->add_hook('hook-name', $callback);
+        // output footer
+		// $rcmail->output->add_footer($this->output_footer());
 	}
 
 	function output_footer() {
 		$ret = "<script>\n";
-		$ret .= 'var lkk_groups = '.json_encode($this->get_groups()).";\n";
-		$ret .= 'var lkk_addrs = '.json_encode($this->get_addresses()).";\n";
+		// $ret .= 'var lkk_groups = '.json_encode($this->get_groups()).";\n";
+		// $ret .= 'var lkk_addrs = '.json_encode($this->get_addresses()).";\n";
+		$ret .= 'lkk_groups = '.json_encode($this->get_groups()).";\n";
+		$ret .= 'lkk_addrs = '.json_encode($this->get_addresses()).";\n";
 		$ret .= "</script>\n";
 		return $ret;
 	}
