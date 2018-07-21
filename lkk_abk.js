@@ -102,7 +102,7 @@
 		Address["bcc_array"] = Address["bcc"].split(/\s*,\s*/);
 
 		if ($('.lkk_addressbook')[0]) {
-			$('.lkk_addressbook .group').html(get_group_html());
+			// $('.lkk_addressbook .group').html(get_group_html());
 			$('.lkk_addressbook .addrs').html(get_address_html());
 			$('.lkk_addressbook').show();
 			return;
