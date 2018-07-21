@@ -8,3 +8,9 @@ Screenshot
 .. image:: https://raw.githubusercontent.com/nansenat16/Roundcube-Plugin-LKK-AddressBook/master/screenshot.png
 
 .. image:: https://raw.githubusercontent.com/nansenat16/Roundcube-Plugin-LKK-AddressBook/master/group_support.png
+
+
+Thank you so much
+----------
+Guo-Wei Su
+https://github.com/nansenat16
