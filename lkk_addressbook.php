@@ -30,7 +30,6 @@ class lkk_addressbook extends rcube_plugin {
 
 	function output_footer() {
 		$ret = "<script>\n";
-		$ret .= "/* aic-tokai */\n";
 		$ret .= 'var lkk_groups = '.json_encode($this->get_groups()).";\n";
 		$ret .= 'var lkk_addrs = '.json_encode($this->get_addresses()).";\n";
 		$ret .= "</script>\n";
