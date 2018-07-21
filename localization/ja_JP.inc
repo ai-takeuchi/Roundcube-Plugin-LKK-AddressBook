@@ -8,5 +8,6 @@ $labels['_cc']='Cc';
 $labels['_bcc']='Bcc';
 $labels['name']='名前';
 $labels['email']='メールアドレス';
-
-?>
+$labels['close']='閉じる';
+$labels['done']='完了';
+$labels['all']='全て';

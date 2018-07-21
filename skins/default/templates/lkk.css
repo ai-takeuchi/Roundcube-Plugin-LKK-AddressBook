@@ -2,10 +2,67 @@
 td.title label[for="_to"],
 td.title label[for="_cc"],
 td.title label[for="_bcc"] {
-  cursor:pointer;
+    cursor: pointer;
 }
 
-div.email_address {
-  margin: 0;
-  padding: 0;
+.lkk_addressbook {
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    width: 96vw;
+    height: 96vh;
+    top: 2vh;
+    left: 2vw;
+    background-color: #fff;
+    border: 2px solid #888;
+    border-radius: 6px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.lkk_addressbook .addrs_wrap {
+    overflow-y: auto;
+    position: absolute;
+    top: 4em;
+    right: 10px;
+    bottom: 14px;
+    left: 10px;
+    border-top: 1px dotted #e6e6e6;
+    border-bottom: 1px dotted #e6e6e6;
+}
+
+.lkk_addressbook table {
+    border-collapse: collapse;
+}
+
+.lkk_addressbook td.contact_name {
+    color: #000;
+    padding-left: 8px;
+}
+
+.lkk_addressbook th {
+    text-align: left;
+}
+
+.lkk_addressbook th, .lkk_addressbook td {
+    color: #555;
+    border-bottom: 1px solid #cccccc;
+    padding: 4px;
+}
+
+.lkk_addressbook .email {
+    color: #000;
+    padding-left: 10px;
+    padding-right: 6px;
+}
+
+.lkk_addressbook tr:nth-child(even) {
+    background: #f7f7f7;
+}
+.lkk_addressbook tr:nth-child(odd) {
+    background: #ffffff;
+}
+.lkk_addressbook tr:hover {
+    background: #fafab3;
 }
