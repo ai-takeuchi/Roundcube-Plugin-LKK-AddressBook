@@ -3,6 +3,14 @@ td.title label[for="_to"],
 td.title label[for="_cc"],
 td.title label[for="_bcc"] {
     cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+td.title label[for="_to"]:hover,
+td.title label[for="_cc"]:hover,
+td.title label[for="_bcc"]:hover {
+    background-color: #ffffff;
 }
 
 .lkk_addressbook {
