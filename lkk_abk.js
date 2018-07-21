@@ -111,9 +111,9 @@
 		$('body').append(`<div class="lkk_addressbook">
 			<header>
 				<div class="toolbar">
+					<button class="close" title="${rcmail.gettext('close', 'lkk_addressbook')}">&times;</button>
 					<span class="group"></span>
 					<button class="done">${rcmail.gettext('done', 'lkk_addressbook')}</button>
-					<button class="close">${rcmail.gettext('close', 'lkk_addressbook')}</button>
 				</div>
 			</header>
 			<div class="addrs_wrap">

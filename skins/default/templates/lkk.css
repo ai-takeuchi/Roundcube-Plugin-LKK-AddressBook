@@ -7,10 +7,53 @@ td.title label[for="_bcc"] {
     padding: 2px 4px;
     border-radius: 3px;
 }
+
 td.title label[for="_to"]:hover,
 td.title label[for="_cc"]:hover,
 td.title label[for="_bcc"]:hover {
     background-color: #ffffff;
+}
+
+.lkk_addressbook .search,
+#lkk_groups,
+.lkk_addressbook .done,
+.lkk_addressbook .close {
+    display: block;
+    float: left;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 5px 8px 3px 8px;
+    min-height: 28px;
+    min-width: 60px;
+    margin: 0 0 0 4px;
+}
+
+#lkk_groups {
+    background-color: #f4f4f4;
+}
+#lkk_groups:hover {
+    background-color: #eeeeee;
+}
+.lkk_addressbook .done {
+    background-color: #eefff1;
+}
+.lkk_addressbook .done:hover {
+    background-color: #e4fce9;
+}
+.lkk_addressbook .close {
+    text-align: left;
+    background: transparent;
+    border: transparent;
+    min-width: 30px;
+}
+.lkk_addressbook .close:hover {
+    font-weight: bold;
+}
+.lkk_addressbook .search {
+    min-width: 180px;
 }
 
 .lkk_addressbook {
@@ -51,6 +94,7 @@ td.title label[for="_bcc"]:hover {
 
 .lkk_addressbook th {
     text-align: left;
+    font-weight: normal;
 }
 
 .lkk_addressbook th, .lkk_addressbook td {
