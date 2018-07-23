@@ -15,6 +15,7 @@ td.title label[for="_bcc"]:hover {
 }
 
 .lkk_addressbook .search,
+#lkk_area,
 #lkk_groups,
 .lkk_addressbook .done,
 .lkk_addressbook .close {
@@ -31,9 +32,11 @@ td.title label[for="_bcc"]:hover {
     margin: 0 0 0 4px;
 }
 
+#lkk_area,
 #lkk_groups {
     background-color: #f4f4f4;
 }
+#lkk_area:hover,
 #lkk_groups:hover {
     background-color: #eeeeee;
 }

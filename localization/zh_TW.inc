@@ -11,3 +11,5 @@ $labels['email']='郵件位址';
 $labels['close']='关闭';
 $labels['done']='已完成';
 $labels['all']='所有';
+$labels['global']='全球';
+$labels['local']='本地';

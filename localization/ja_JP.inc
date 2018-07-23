@@ -11,3 +11,5 @@ $labels['email']='メールアドレス';
 $labels['close']='閉じる';
 $labels['done']='完了';
 $labels['all']='全て';
+$labels['global']='グローバル';
+$labels['local']='ローカル';

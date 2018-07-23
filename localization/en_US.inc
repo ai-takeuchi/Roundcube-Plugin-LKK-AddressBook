@@ -11,3 +11,5 @@ $labels['email']='E-mail';
 $labels['close']='Close';
 $labels['done']='Done';
 $labels['all']='All';
+$labels['global']='Global';
+$labels['local']='Local';
