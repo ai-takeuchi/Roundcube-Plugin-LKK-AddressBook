@@ -3,10 +3,15 @@
  *
  */
 
-var lkk_groups = {};
-var lkk_addrs = [];
+var lkk_global_groups = {};
+var lkk_global_addrs = [];
+
+var lkk_local_groups = {};
+var lkk_local_addrs = [];
 
 (function () {
+	var lkk_groups = lkk_global_groups;
+	var lkk_addrs = lkk_global_addrs;
 
 	var Address = {
 		to: "",
@@ -41,31 +46,26 @@ var lkk_addrs = [];
 			for (var email_index in contact["email"]) {
 				group_id++;
 
-				var email = contact["email"][email_index];
-
-				var status = [];
-				var regexp = getMatchEmailRegexp(email);
-				["to", "cc", "bcc"].forEach(function (toccbcc) {
-					status[toccbcc] = 'checked="checked"';
-					if (Address[toccbcc].match(regexp) === null) {
-						status[toccbcc] = '';
-					}
-				});
-
 				if (emails) {
 					emails += "<br>";
 				}
-				// console.log(emails);
 
-				emails += '<input type="checkbox" group="' + group_id + '" value="to" id="to_' + group_id + '" ' + status["to"] + ' /><label for="to_' + group_id + '">To</label>';
+				var email = contact["email"][email_index];
+				var regexp = getMatchEmailRegexp(email);
+				var status = "";
 
-				emails += '<input type="checkbox" group="' + group_id + '" value="cc" id="cc_' + group_id + '" ' + status["cc"] + ' /><label for="cc_' + group_id + '">Cc</label>';
+				status = Address["to"].match(regexp) === null ? '' : 'checked="checked"';
+				emails += '<input type="checkbox" group="' + group_id + '" value="to" id="to_' + group_id + '" ' + status + ' /><label for="to_' + group_id + '">To</label>';
 
-				emails += '<input type="checkbox" group="' + group_id + '" value="bcc" id="bcc_' + group_id + '" ' + status["bcc"] + ' /><label for="bcc_' + group_id + '">Bcc</label>';
+				status = Address["cc"].match(regexp) === null ? '' : 'checked="checked"';
+				emails += '<input type="checkbox" group="' + group_id + '" value="cc" id="cc_' + group_id + '" ' + status + ' /><label for="cc_' + group_id + '">Cc</label>';
+
+				status = Address["bcc"].match(regexp) === null ? '' : 'checked="checked"';
+				emails += '<input type="checkbox" group="' + group_id + '" value="bcc" id="bcc_' + group_id + '" ' + status + ' /><label for="bcc_' + group_id + '">Bcc</label>';
 
 				emails += ' <span class="email" group="' + group_id + '" contact_id="' + contact_id + '" email_index="' + email_index + '">' + email + '</span>';
+				// console.log(emails);
 			}
-			// console.log(emails);
 			trs += '<tr><td class="contact_name">' + contact_name + '</td><td>' + emails + '</td></tr>';
 		}
 		var table = '<table>' + trs + '</table>';
@@ -76,31 +76,20 @@ var lkk_addrs = [];
 		return new RegExp('([\\s<,;:]+|^)(' + email.replace(".", "\\.") + ')([\\s>,;:]+|$)', 'i');
 	}
 
+	function get_area_html() {
+		var options = '<option value="global">' + rcmail.gettext('global', 'lkk_addressbook') + '</option>';
+		options += '<option value="local">' + rcmail.gettext('local', 'lkk_addressbook') + '</option>';
+		return '<select id="lkk_area">' + options + '</select>';
+	}
+
 	function get_group_html() {
 		var options = '<option value="0">' + rcmail.gettext('all', 'lkk_addressbook') + '</option>';
 		for (var id in lkk_groups) {
 			// console.log(lkk_groups[id]);
 			var group = lkk_groups[id];
-			if (is_exists_contact_id(group) == false) {
-				continue;
-			}
 			options += '<option value="' + id + '">' + group["name"] + '</option>';
 		}
 		return '<select id="lkk_groups">' + options + '</select>';
-	}
-
-
-	function is_exists_contact_id(group) {
-		var found = false;
-		group["contact_id"].forEach(function (contact_id) {
-			for (var i in lkk_addrs) {
-				// console.log('' + group["name"] + '' + lkk_addrs[i]["contact_id"] + '== ' + contact_id + '');
-				if (lkk_addrs[i]["contact_id"] == contact_id) {
-					found = true;
-				}
-			}
-		});
-		return found;
 	}
 
 	function get_contact(contact_id, email_index) {
@@ -130,10 +119,14 @@ var lkk_addrs = [];
 			return;
 		}
 
+		lkk_groups = lkk_global_groups;
+		lkk_addrs = lkk_global_addrs;
+
 		$('body').append('<div class="lkk_addressbook">' +
 			'<header>' +
 			'<div class="toolbar">' +
 			'<button class="close" title="' + rcmail.gettext('close', 'lkk_addressbook') + '">&times;</button>' +
+			'<span class="area"></span>' +
 			'<span class="group"></span>' +
 			'<button class="done">' + rcmail.gettext('done', 'lkk_addressbook') + '</button>' +
 			'</div>' +
@@ -143,6 +136,7 @@ var lkk_addrs = [];
 			'</div>' +
 			'</div>');
 
+		$('.lkk_addressbook .area').html(get_area_html());
 		$('.lkk_addressbook .group').html(get_group_html());
 		$('.lkk_addressbook .addrs').html(get_address_html());
 
@@ -151,6 +145,19 @@ var lkk_addrs = [];
 		});
 
 		$(document).on('change', '#lkk_groups', function () {
+			$('.lkk_addressbook .addrs').html(get_address_html());
+		});
+
+		$(document).on('change', '#lkk_area', function () {
+			// console.log($('#lkk_area').val());
+			if ($('#lkk_area').val() == 'global') {
+				lkk_groups = lkk_global_groups;
+				lkk_addrs = lkk_global_addrs;
+			} else {
+				lkk_groups = lkk_local_groups;
+				lkk_addrs = lkk_local_addrs;
+			}
+			$('.lkk_addressbook .group').html(get_group_html());
 			$('.lkk_addressbook .addrs').html(get_address_html());
 		});
 
