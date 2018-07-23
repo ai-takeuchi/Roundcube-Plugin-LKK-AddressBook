@@ -10,6 +10,8 @@ var lkk_local_groups = {};
 var lkk_local_addrs = [];
 
 (function () {
+	var globaladdressbook = false;
+
 	var lkk_groups = lkk_global_groups;
 	var lkk_addrs = lkk_global_addrs;
 
@@ -77,7 +79,10 @@ var lkk_local_addrs = [];
 	}
 
 	function get_area_html() {
-		var options = '<option value="global">' + rcmail.gettext('global', 'lkk_addressbook') + '</option>';
+		var options = '';
+		if (globaladdressbook) {
+			options += '<option value="global">' + rcmail.gettext('global', 'lkk_addressbook') + '</option>';
+		}
 		options += '<option value="local">' + rcmail.gettext('local', 'lkk_addressbook') + '</option>';
 		return '<select id="lkk_area">' + options + '</select>';
 	}
@@ -105,6 +110,12 @@ var lkk_local_addrs = [];
 	function lkk_init() {
 		// console.log("lkk_init");
 
+		if (Object.keys(lkk_global_addrs).length == 0 && Object.keys(lkk_global_groups).length == 0) {
+			globaladdressbook = false;
+		} else {
+			globaladdressbook = true;
+		}
+
 		Address["to"] = $('textarea[name="_to"]').val();
 		Address["to_array"] = Address["to"].split(/\s*,\s*/);
 		Address["cc"] = $('textarea[name="_cc"]').val();
@@ -119,8 +130,13 @@ var lkk_local_addrs = [];
 			return;
 		}
 
-		lkk_groups = lkk_global_groups;
-		lkk_addrs = lkk_global_addrs;
+		if (globaladdressbook) {
+			lkk_groups = lkk_global_groups;
+			lkk_addrs = lkk_global_addrs;
+		} else {
+			lkk_groups = lkk_local_groups;
+			lkk_addrs = lkk_local_addrs;
+		}
 
 		$('body').append('<div class="lkk_addressbook">' +
 			'<header>' +

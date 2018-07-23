@@ -2,10 +2,15 @@
 
 class lkk_addressbook extends rcube_plugin {
 
+	private $globaladdressbook = false;
+
 	function init() {
 		// echo 'lkk_addressbook init';
 
 		$rcmail = rcmail::get_instance();
+
+		$this->globaladdressbook = $this->globaladdressbook_exists($rcmail);
+
 		if ($rcmail->action == 'compose') {
 			$this->api->add_content($this->get_user_group_array(), "toolbar");
 			$this->include_script('lkk_abk.js');
@@ -18,11 +23,24 @@ class lkk_addressbook extends rcube_plugin {
 		// $rcmail->output->add_footer($this->get_user_group_array());
 	}
 
+	function globaladdressbook_exists($rcmail) {
+		// use this address book for autocompletion queries
+		if ($rcmail->config->get('globaladdressbook_autocomplete')) {
+			$sources = $rcmail->config->get('autocomplete_addressbooks', array('sql'));
+			if (in_array('global', $sources)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	function get_user_group_array() {
 		$ret = "<script>\n";
-		$ret .= 'lkk_global_groups = '.json_encode($this->get_global_groups()).";\n";
-		$ret .= 'lkk_global_addrs = '.json_encode($this->get_global_address()).";\n";
-		//
+		if ($this->globaladdressbook) {
+			$ret .= 'lkk_global_groups = '.json_encode($this->get_global_groups()).";\n";
+			$ret .= 'lkk_global_addrs = '.json_encode($this->get_global_address()).";\n";
+		}
 		$ret .= 'lkk_local_groups = '.json_encode($this->get_local_groups()).";\n";
 		$ret .= 'lkk_local_addrs = '.json_encode($this->get_local_address()).";\n";
 		$ret .= "</script>\n";
@@ -34,7 +52,7 @@ class lkk_addressbook extends rcube_plugin {
 	 */
 	function get_global_address() {
 		// Global AddressBook
-		$addr=rcmail::get_instance()->get_address_book('global');
+		$addr = rcmail::get_instance()->get_address_book('global');
 		$addr->set_pagesize(9999);
 		//$rt=$addr->list_records(array('name','email','contact_id'));
 		$rt=$addr->list_records(array('name','email'));
