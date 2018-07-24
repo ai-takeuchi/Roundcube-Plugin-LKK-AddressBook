@@ -181,6 +181,18 @@ var lkk_local_addrs = [];
 			$('textarea[name="_to"]').val(Address["to"]);
 			$('textarea[name="_cc"]').val(Address["cc"]);
 			$('textarea[name="_bcc"]').val(Address["bcc"]);
+
+			if (rcmail_ui && rcmail_ui.show_header_form) {
+				if (Address["cc"].length > 0 && $('#compose-cc').css("display") === "none") {
+					rcmail_ui.show_header_form('cc');
+				}
+				if (Address["bcc"].length > 0 && $('#compose-bcc').css("display") === "none") {
+					rcmail_ui.show_header_form('bcc');
+				}
+			} else {
+				console.log("'rcmail_ui.show_header_form' is not found");
+			}
+
 			close_dialog();
 		});
 
